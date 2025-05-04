@@ -6,14 +6,13 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Global counter for automation runs
 run_count = 0
 status_message = "Idle"
 
 def create_browser():
     chrome_options = Options()
     chrome_options.add_argument('--incognito')
-    chrome_options.add_argument('--headless')  # Remove this if you want the GUI to be visible
+    chrome_options.add_argument('--headless')  # Headless for Vercel
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--window-size=1920x1080')
@@ -26,31 +25,25 @@ def run_script():
     driver = None
     try:
         status_message = "Running"
-        print("[+] Opening incognito browser...")
         driver = create_browser()
         driver.delete_all_cookies()
 
-        driver.get("https://youtu.be/bNDG74QS7JI")  # Replace this
+        driver.get("https://youtu.be/bNDG74QS7JI")  # YouTube URL
         time.sleep(3)
 
         # Press 'k'
-        print("[+] Pressing 'k' key...")
         actions = ActionChains(driver)
         actions.send_keys("k").perform()
 
         time.sleep(25)
         driver.quit()
-        print("[+] Closed browser. Waiting 2 sec...\n")
-        time.sleep(2)
 
-        run_count += 1  # Increment the count after successful run
+        run_count += 1  # Increment run count after success
         status_message = "Completed"
     except Exception as e:
-        print("[-] Error:", e)
+        status_message = f"Error: {str(e)}"
         if driver:
             driver.quit()
-        time.sleep(5)
-        status_message = f"Error: {str(e)}"
 
 @app.route('/')
 def index():
@@ -64,5 +57,6 @@ def start_script():
     except Exception as e:
         return f"❌ Error: {str(e)}", 500
 
+# Vercel requires this to run Flask app
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080)
+    app.run()
