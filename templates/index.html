@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selenium Automation Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .status {
+            font-size: 18px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .status.completed {
+            background-color: #28a745;
+            color: white;
+        }
+        .status.running {
+            background-color: #ffc107;
+            color: black;
+        }
+        .status.error {
+            background-color: #dc3545;
+            color: white;
+        }
+        .status.idle {
+            background-color: #007bff;
+            color: white;
+        }
+        .info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .info p {
+            margin: 5px 0;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Selenium Automation Status</h1>
+
+        <!-- Display Status -->
+        <div class="status {{ status|lower }}">
+            <strong>Status:</strong> {{ status }}
+        </div>
+
+        <div class="info">
+            <p><strong>Automation Runs:</strong> {{ count }}</p>
+        </div>
+
+        <!-- Trigger Automation -->
+        <form action="/start" method="GET">
+            <button type="submit">Start Automation</button>
+        </form>
+    </div>
+
+</body>
+</html>
